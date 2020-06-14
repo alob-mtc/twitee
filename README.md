@@ -55,10 +55,6 @@ yarn test
 #### run end to end test
 
 ```bash
-yarn dev
-```
-
-```bash
 yarn test:e2e
 ```
 
