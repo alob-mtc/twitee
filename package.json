@@ -1,0 +1,56 @@
+{
+  "name": "twitee-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn run clean && babel ./src -d dist",
+    "now-build": "yarn run build",
+    "clean": "rimraf dist",
+    "db": "babel-node ./db/index.js",
+    "dev": "nodemon --exec babel-node ./src/index.js",
+    "start": "yarn run clean && yarn run build && yarn run db && cd dist && node index.js",
+    "test": "jest src --runInBand --detectOpenHandles --watch --coverage --verbose",
+    "test:e2e": "jest ./__test__ --runInBand --detectOpenHandles --coverage --verbose"
+  },
+  "author": "alob_mtc <bolamigbeakinlua@gmail.com>",
+  "jest": {
+    "verbose": false,
+    "globalSetup": "./jest-setup.js",
+    "globalTeardown": "./jest-teardown.js",
+    "testEnvironment": "./jest-mongo.js"
+  },
+  "dependencies": {
+    "@babel/cli": "*",
+    "@babel/core": "*",
+    "@babel/node": "*",
+    "@babel/preset-env": "*",
+    "babel-plugin-inline-dotenv": "*",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "*",
+    "cors": "^2.8.5",
+    "cuid": "*",
+    "dotenv": "*",
+    "express": "*",
+    "is-valid-email": "*",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "*",
+    "morgan": "^1.10.0",
+    "rimraf": "*",
+    "sanitize-html": "*"
+  },
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "babel-jest": "*",
+    "eslint": "*",
+    "eslint-config-standard": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-node": "*",
+    "eslint-plugin-promise": "*",
+    "eslint-plugin-standard": "*",
+    "faker": "*",
+    "jest": "*",
+    "mongodb-memory-server": "*",
+    "nodemon": "*"
+  }
+}

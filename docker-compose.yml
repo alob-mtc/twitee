@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  twitee:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_URL=mongodb://db
+
+  db:
+    image: mongo
+    container_name: twitee-db
+    ports:
+      - "27017:27017"

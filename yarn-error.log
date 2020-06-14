@@ -1,0 +1,72 @@
+Arguments: 
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js
+
+PATH: 
+  /home/kira/go/bin:/usr/local/go/bin:/home/kira/kubernetes-kind:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.16.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:64:26)
+
+npm manifest: 
+  {
+    "name": "comments-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "build": "yarn run clean && babel src -d dist",
+      "now-build": "yarn run build",
+      "clean": "rimraf dist",
+      "db": "babel-node ./db/index.js",
+      "dev": "nodemon --exec babel-node ./src/index.js",
+      "start": "yarn run clean && yarn run build && yarn run db && cd dist && node index.js",
+      "test": "jest src --watch",
+      "test:e2e": "jest ./__test__ --runInBand"
+    },
+    "author": "alob_mtc <bolamigbeakinlua@gmail.com>",
+    "dependencies": {
+      "@devmastery/pipe": "*",
+      "babel-plugin-inline-dotenv": "*",
+      "body-parser": "*",
+      "cuid": "*",
+      "express": "*",
+      "is-valid-email": "*",
+      "mongodb": "*",
+      "sanitize-html": "*"
+    },
+    "devDependencies": {
+      "@babel/cli": "*",
+      "@babel/core": "*",
+      "@babel/node": "*",
+      "@babel/preset-env": "*",
+      "babel-jest": "*",
+      "dotenv": "*",
+      "eslint": "*",
+      "eslint-config-standard": "*",
+      "eslint-plugin-import": "*",
+      "eslint-plugin-node": "*",
+      "eslint-plugin-promise": "*",
+      "eslint-plugin-standard": "*",
+      "faker": "*",
+      "jest": "*",
+      "mongodb-memory-server": "*",
+      "nodemon": "*",
+      "rimraf": "*"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
