@@ -54,8 +54,6 @@ yarn test
 
 #### run end to end test
 
-> the server as to be started before this test can be ran
-
 ```bash
 yarn dev
 ```
