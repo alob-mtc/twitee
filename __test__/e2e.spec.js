@@ -8,6 +8,7 @@ import makeFakeTwit from './fixtures/twit';
 import makeFakeLike from './fixtures/like';
 import makeFakeUser from './fixtures/user';
 import dotenv from 'dotenv';
+import { date } from 'faker';
 dotenv.config();
 //the server object
 let server;
@@ -48,19 +49,23 @@ describe('Twitee API', () => {
         }),
       );
       const {
-        data: { token },
+        data: {
+          token,
+          user: { _id },
+        },
       } = auth.data;
       // =====================
+      const fakeComment = makeFakeComment({
+        _id: undefined,
+        hash: undefined,
+        userId: undefined,
+        text: 'Something safe and intelligible.',
+        twitId: fakeTwit._id,
+      });
       const response = await axios({
         method: 'post',
         url: '/twit/post-comments',
-        data: makeFakeComment({
-          _id: undefined,
-          hash: undefined,
-          userId: undefined,
-          text: 'Something safe and intelligible.',
-          twitId: fakeTwit._id,
-        }),
+        data: fakeComment,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `JWT ${token}`,
@@ -70,20 +75,26 @@ describe('Twitee API', () => {
       const { data: posted } = response.data;
       const doc = await commentsDb.findById(posted._id);
       expect(doc).toEqual(posted);
+      expect(posted.text).toBe(fakeComment.text);
+      expect(posted.twitId).toBe(fakeTwit._id);
+      expect(posted.userId).toBe(_id);
+      expect(posted.hash).toBeDefined();
+      expect(posted.createdOn).toBeDefined();
+      expect(posted.modifiedOn).toBeDefined();
       return commentsDb.remove(posted);
     });
   });
   describe('users', () => {
     // test sign up functionality
     it('user sign up', async () => {
-      const auth = await axios.post(
-        '/user/signup',
-        makeFakeUser({ _id: undefined }),
-      );
+      const fakeUser = makeFakeUser({ _id: undefined });
+      const auth = await axios.post('/user/signup', fakeUser);
       const { data, status } = auth.data;
       expect(auth.status).toBe(201);
       expect(data.token).toBeDefined();
       expect(data.user).toBeDefined();
+      expect(data.user._id).toBeDefined();
+      expect(data.user.isAdmin).toBeDefined();
       expect(status).toBe('success');
     });
     // test signin functionlity
@@ -106,6 +117,8 @@ describe('Twitee API', () => {
       expect(response.status).toBe(201);
       expect(data.token).toBeDefined();
       expect(data.user).toBeDefined();
+      expect(data.user._id).toBeDefined();
+      expect(data.user.isAdmin).toBeDefined();
       expect(status).toBe('success');
       const db = await makeDb();
       return db.collection('users').remove(data.user);
@@ -193,6 +206,9 @@ describe('Twitee API', () => {
       const doc = await twitDb.findById(twit._id);
       expect(doc.userId).toBe(_id);
       expect(doc.text).toBe('this is testing.');
+      expect(twit.hash).toBeDefined();
+      expect(twit.createdOn).toBeDefined();
+      expect(twit.modifiedOn).toBeDefined();
       return twitDb.remove(doc);
     });
     // test the like twit functionality
@@ -225,6 +241,9 @@ describe('Twitee API', () => {
       const { data: like } = response.data;
       expect(like.userId).toBe(_id);
       expect(like.twitId).toBe(fakeTwit._id);
+      expect(like._id).toBeDefined();
+      expect(like.createdOn).toBeDefined();
+      expect(like.modifiedOn).toBeDefined();
     });
     // test the unlike twit functionality
     it('unlike twit', async () => {
@@ -238,14 +257,11 @@ describe('Twitee API', () => {
       });
       const auth = await axios.post('/user/signup', fakeUser);
       const {
-        data: {
-          token,
-          user: { _id },
-        },
+        data: { token },
       } = auth.data;
       // =====================
       // like the test twit
-      await axios({
+      const like = await axios({
         method: 'get',
         url: '/twit/like-twit/' + fakeTwit._id,
         headers: {
@@ -267,8 +283,9 @@ describe('Twitee API', () => {
         },
       });
       expect(response.status).toBe(201);
-      const { data: like } = response.data;
-      expect(like.unlike).toBe(true);
+      const { data } = response.data;
+      expect(data.unlike).toBe(true);
+      expect(data._id).toBe(like.data.data._id);
     });
     // the unlike twit functionality => user should not be able to unlike twit that as not been liked be them
     it('user can not unlike twit that was not liked by them', async () => {
@@ -282,10 +299,7 @@ describe('Twitee API', () => {
       });
       const auth = await axios.post('/user/signup', fakeUser);
       const {
-        data: {
-          token,
-          user: { _id },
-        },
+        data: { token },
       } = auth.data;
       // =====================
       const response = await axios({

@@ -160,7 +160,7 @@ export function makeAddComment({ commentsDb, twitDb }) {
       hash: comment.getHash(),
       _id: comment.getId(),
       text: comment.getText(),
-      twitId: comment.getId(),
+      twitId: comment.getTwitId(),
       createdOn: comment.getCreatedOn(),
       modifiedOn: comment.getModifiedOn(),
     });
