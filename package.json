@@ -10,8 +10,8 @@
     "db": "babel-node ./db/index.js",
     "dev": "nodemon --exec babel-node ./src/index.js",
     "start": "yarn run clean && yarn run build && yarn run db && cd dist && node index.js",
-    "test": "jest src --runInBand --detectOpenHandles --watch --maxWorkers=2 --ci --coverage --verbose",
-    "test:e2e": "jest ./__test__ --runInBand --detectOpenHandles --maxWorkers=2 --ci --coverage --verbose"
+    "test": "jest src --runInBand --detectOpenHandles --ci --coverage",
+    "test:e2e": "jest ./__test__ --runInBand --detectOpenHandles --ci --coverage"
   },
   "author": "alob_mtc <bolamigbeakinlua@gmail.com>",
   "jest": {
