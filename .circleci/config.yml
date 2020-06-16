@@ -9,20 +9,10 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: yarn
           pkg-manager: yarn
       - run:
           command: yarn run test
           name: Run YARN tests
-  test_e2e:
-    executor: node/default
-    steps:
-      - checkout
-      - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: yarn
-          pkg-manager: yarn
       - run:
           command: yarn run test:e2e
           name: Run YARN tests e2e
@@ -31,4 +21,3 @@ workflows:
   test_my_app:
     jobs:
       - test
-      - test_e2e

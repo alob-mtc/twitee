@@ -121,7 +121,7 @@ describe('Twitee API', () => {
       expect(data.user.isAdmin).toBeDefined();
       expect(status).toBe('success');
       const db = await makeDb();
-      return db.collection('users').remove(data.user);
+      return db.collection('users').deleteOne(data.user);
     });
   });
   describe('twits', () => {
