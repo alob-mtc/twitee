@@ -22,7 +22,7 @@ const userDb = makeTwitDb({ collectionName: 'users' });
  */
 const twitService = Object.freeze({
   addComment: makeAddComment({ commentsDb, twitDb }),
-  deleteTwit: makeDeleteTwit({ twitDb }),
+  deleteTwit: makeDeleteTwit({ twitDb, commentsDb, likeDb }),
   likeTwit: makeLikeTwit({ twitDb, userDb, likeDb }),
   listTwit: makeListTwit({ twitDb }),
   postTwit: makePostTwit({ twitDb, userDb }),

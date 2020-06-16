@@ -323,6 +323,8 @@ describe('Twitee API', () => {
     //test the delete twit functionality
     it('deletes twit', async () => {
       const twitDb = makeTwiteeDb({ collectionName: 'twits' });
+      const commentDb = makeTwiteeDb({ collectionName: 'comments' });
+      const likeDb = makeTwiteeDb({ collectionName: 'likes' });
       // ====================
       const fakeUser = makeFakeUser({
         _id: undefined,
@@ -335,8 +337,20 @@ describe('Twitee API', () => {
         },
       } = auth.data;
       // =====================
+      const comment_1 = makeFakeComment();
+      const comment_2 = makeFakeComment();
       const twit = makeFakeTwit({ userId: _id });
-      await twitDb.insert(twit);
+      const like_1 = makeFakeLike({ userId: _id, twitId: twit._id });
+      const like_2 = makeFakeLike({ userId: _id, twitId: twit._id });
+      comment_1.twitId = twit._id;
+      comment_2.twitId = twit._id;
+      await Promise.all([
+        commentDb.insert(comment_1),
+        commentDb.insert(comment_2),
+        likeDb.insert(like_1),
+        likeDb.insert(like_2),
+        twitDb.insert(twit),
+      ]);
       const response = await axios({
         method: 'delete',
         url: '/twit/delete-twit/' + twit._id,
@@ -345,8 +359,18 @@ describe('Twitee API', () => {
           Authorization: `JWT ${token}`,
         },
       });
+      // ====================
       expect(response.data.data._id).toBe(twit._id);
       expect(response.data.data.deleted).toBe(true);
+      const [a, b, c] = await Promise.all([
+        twitDb.findById({ _id: twit._id }),
+        commentDb.find({ twitId: twit._id }),
+        likeDb.find({ twitId: twit._id }),
+      ]);
+      expect(a).toBe(null);
+      expect(b.length).toBe(0);
+      expect(c.length).toBe(0);
+      return;
     });
     // test delete functionality => user can not delete post that was not posted by them
     it('can not delete twit not posted by you', async () => {

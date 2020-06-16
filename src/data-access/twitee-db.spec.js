@@ -89,6 +89,18 @@ describe('twitee db', () => {
     await testDb.insert(comment);
     return expect(await testDb.remove(comment)).toBe(true);
   });
+
+  it('deletes many documents', async () => {
+    const comment_1 = makeFakeComment({ userId: 'ckbichnvr000ylwykgj2k5k93' });
+    const comment_2 = makeFakeComment({ userId: 'ckbichnvr000ylwykgj2k5k93' });
+    const comment_3 = makeFakeComment({ userId: 'ckbichnvr000ylwykgj2k5k93' });
+    [comment_1, comment_2, comment_3].map(
+      async (comment) => await testDb.insert(comment),
+    );
+    return expect(
+      await testDb.removeMany({ userId: 'ckbichnvr000ylwykgj2k5k93' }),
+    ).toBe(true);
+  });
 });
 
 describe('the find twit aggregation test', () => {

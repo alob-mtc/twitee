@@ -57,7 +57,7 @@ export function makeListTwit({ twitDb }) {
  * @returns {Function} the delete twit function => this is reponsible for removing twit => it returns and object { _id, deleted }, deleted is true if the twit was successful deleted
  * the delete twit function validates that the user trying to delete the twit is the author of the twit
  */
-export function makeDeleteTwit({ twitDb }) {
+export function makeDeleteTwit({ twitDb, commentsDb, likeDb }) {
   return async function deleteTwit({ _id, userId }) {
     if (!_id) {
       throw new Error('You must provide the twit id');
@@ -68,6 +68,11 @@ export function makeDeleteTwit({ twitDb }) {
       throw new Error('This twit was not posted by you');
     }
     const deleted = await twitDb.remove({ _id });
+    // delete the
+    await Promise.all([
+      commentsDb.removeMany({ twitId: _id }),
+      likeDb.removeMany({ twitId: _id }),
+    ]);
     return { _id, deleted };
   };
 }

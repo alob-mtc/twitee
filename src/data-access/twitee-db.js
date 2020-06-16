@@ -1,3 +1,5 @@
+import { query } from 'express';
+
 export default function buildMakeTwiteeDb({ makeDb }) {
   return function makeTwiteeDb({ collectionName }) {
     return Object.freeze({
@@ -10,6 +12,7 @@ export default function buildMakeTwiteeDb({ makeDb }) {
       findTwit,
       insert,
       remove,
+      removeMany,
       update,
     });
     async function find(query) {
@@ -109,6 +112,14 @@ export default function buildMakeTwiteeDb({ makeDb }) {
       const db = await makeDb();
       const result = await db.collection(collectionName).deleteOne({ _id });
       return result.deletedCount === 1;
+    }
+    // this remove many document from the collection
+    async function removeMany({ ...query }) {
+      const db = await makeDb();
+      const result = await db.collection(collectionName).deleteMany(query);
+      return result.result.n > 0
+        ? result.deletedCount === result.result.n
+        : false;
     }
   };
 }
