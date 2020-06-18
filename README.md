@@ -19,7 +19,6 @@ yarn i
 yarn start
 ```
 
-
 ### Run with docker
 
 You can also run the server with docker. It buil build and run the application image
