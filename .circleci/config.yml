@@ -9,8 +9,6 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: yarn
           pkg-manager: yarn
       - run:
           command: yarn run test
@@ -20,8 +18,6 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: yarn
           pkg-manager: yarn
       - run:
           command: yarn run test:e2e
