@@ -8,7 +8,7 @@ import JWT from '../../modules/auth';
 // services
 import { makeSignin, makeSignup, makeSignout } from './authObject';
 // build the signin function with its dependencies => db_interface, generateToken
-const signin = makeSignin({
+const signin = makeSignin( {
   userDb,
   generateToken: JWT.genToken,
 });
@@ -18,7 +18,7 @@ const signin = makeSignin({
  * signing up(user registration), signing in(login), siging out(logout)
  */
 const authService = Object.freeze({
-  signin,
+  signin  ,
   // build the signup function with its dependencies => db_interface, sigin(this help to sigin the user in as soon as they are registered)
   signup: makeSignup({ userDb, signin }),
   // build the signout function with its dependencies
