@@ -20,7 +20,7 @@ const signin = makeSignin( {
 const authService = Object.freeze({
   signin  ,
   // build the signup function with its dependencies => db_interface, sigin(this help to sigin the user in as soon as they are registered)
-  signup: makeSignup({ userDb, login }),
+  signup: makeSignup({ userDb, signin }),
   // build the signout function with its dependencies
   signout: makeSignout({}),
 });
