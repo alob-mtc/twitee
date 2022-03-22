@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello from User service' });
 });
 // the sigin router
-router.post('/user-signin', makeCallback(signin));
+router.post('/signin', makeCallback(signin));
 //  the signup router
 router.post('/signup', makeCallback(signup));
 //  the signout endpoint

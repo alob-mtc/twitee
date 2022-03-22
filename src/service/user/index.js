@@ -15,7 +15,7 @@ const signin = makeSignin( {
 /**
  * this is the auth service object
  * if the responsible for
- * signing up(user registration), signing in(login), siging out(logout)
+ * loging up(user registration), loging in(login), siging out(logout)
  */
 const authService = Object.freeze({
   signin  ,
