@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 });
 // the sigin router
 router.post('/login', makeCallback(signin)); //changed login to signin
+router.post('/user-signin', makeCallback(signin));
 //  the signup router
 router.post('/signup', makeCallback(signup));
 //  the signout endpoint
