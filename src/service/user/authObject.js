@@ -22,18 +22,18 @@ const { makeUser } = Entity;
 export function makeSignin({ userDb, generateToken }) {
   return async function login({ email, password }) {
     if (!email) {
-      throw new Error('You must supply an Email');
+      throw new Error('You must supply an email!');
     }
     if (!password) {
-      throw new Error('You must supply a password');
+      throw new Error('You must supply a password!');
     }
     const exits = await userDb.findByEmail(email);
     if (!exits) {
-      throw new Error('Auth Failed');
+      throw new Error('Auth Failed.');
     }
     const authUser = makeUser(exits);
     if (!authUser.validPassword(password)) {
-      throw new Error('Auth failed');
+      throw new Error('Auth failed.');
     }
     // generate the token plus other meta-data to be sent to the client
     const token = generateToken({
