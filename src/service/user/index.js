@@ -7,20 +7,20 @@ const userDb = makeTwitDb({ collectionName: 'users' });
 import JWT from '../../modules/auth';
 // services
 import { makeSignin, makeSignup, makeSignout } from './authObject';
-// build the signin function with its dependencies => db_interface, generateToken
-const signin = makeSignin({
+// build the login function with its dependencies => db_interface, generateToken
+const login = makeSignin({
   userDb,
   generateToken: JWT.genToken,
 });
 /**
  * this is the auth service object
  * if the responsible for
- * signing up(user registration), signing in(login), siging out(logout)
+ * loging up(user registration), loging in(login), siging out(logout)
  */
 const authService = Object.freeze({
-  signin,
+  login,
   // build the signup function with its dependencies => db_interface, sigin(this help to sigin the user in as soon as they are registered)
-  signup: makeSignup({ userDb, signin }),
+  signup: makeSignup({ userDb, login }),
   // build the signout function with its dependencies
   signout: makeSignout({}),
 });

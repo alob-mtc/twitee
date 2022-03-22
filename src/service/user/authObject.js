@@ -22,14 +22,14 @@ const { makeUser } = Entity;
 export function makeSignin({ userDb, generateToken }) {
   return async function login({ email, password }) {
     if (!email) {
-      throw new Error('You must supply an Email');
+      throw new Error('You must supply an Email.');
     }
     if (!password) {
-      throw new Error('You must supply a password');
+      throw new Error('You must supply a Password.');
     }
     const exits = await userDb.findByEmail(email);
     if (!exits) {
-      throw new Error('Auth Failed');
+      throw new Error('Email does not exist.');
     }
     const authUser = makeUser(exits);
     if (!authUser.validPassword(password)) {
