@@ -35,7 +35,7 @@
     "dotenv": "*",
     "express": "*",
     "is-valid-email": "*",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "*",
     "morgan": "^1.10.0",
     "rimraf": "*",
